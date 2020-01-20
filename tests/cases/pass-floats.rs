@@ -1,0 +1,38 @@
+use synonym::Synonym;
+
+macro_rules! check {
+    ($t:ty, $v:expr) => {
+        {
+            #[derive(Synonym)]
+            struct Foo($t);
+
+            fn check_as_ref(_: impl AsRef<$t>) {}
+            fn check_from(_: impl From<$t>) {}
+            fn check_from_inner(_: impl From<Foo>) {}
+
+            check_partial_eq(Foo($v));
+            check_partial_ord(Foo($v));
+            check_clone(Foo($v));
+            check_copy(Foo($v));
+            check_default(Foo($v));
+            check_debug(Foo($v));
+            check_as_ref(Foo($v));
+            check_from(Foo($v));
+            check_from_inner($v);
+            check_from_str(Foo($v));
+        }
+    }
+}
+
+fn main() {
+    check!(f32, 1f32);
+    check!(f64, 1f64);
+}
+
+fn check_partial_eq(_: impl PartialEq) {}
+fn check_partial_ord(_: impl PartialOrd) {}
+fn check_clone(_: impl Clone) {}
+fn check_copy(_: impl Copy) {}
+fn check_default(_: impl Default) {}
+fn check_debug(_: impl core::fmt::Debug) {}
+fn check_from_str(_: impl core::str::FromStr) {}

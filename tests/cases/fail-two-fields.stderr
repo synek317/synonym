@@ -1,0 +1,7 @@
+error: proc-macro derive panicked
+ --> $DIR/fail-two-fields.rs:3:10
+  |
+3 | #[derive(Synonym)]
+  |          ^^^^^^^
+  |
+  = help: message: Synonym supports only tuple structs with single unnamed field. Enums, unions and generic type parameters are not supported
