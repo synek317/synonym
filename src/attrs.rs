@@ -42,4 +42,6 @@ pub struct ImplList {
     pub from: bool,
     #[darling(rename = "String")]
     pub string: bool,
+    #[darling(rename = "Number")]
+    pub number: bool,
 }

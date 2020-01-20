@@ -42,6 +42,7 @@ pub fn synonym_derive(input: TokenStream) -> TokenStream {
         impl_from(&info),
         impl_from_str(&info),
         impl_string(&info),
+        impl_number(&info),
     ]);
 
     TokenStream::from(expanded)

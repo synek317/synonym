@@ -23,6 +23,14 @@ macro_rules! check {
             check_from(Foo($v));
             check_from_inner($v);
             check_from_str(Foo($v));
+            check_add(Foo($v));
+            check_sub(Foo($v));
+            check_mul(Foo($v));
+            check_div(Foo($v));
+            check_add_assign(Foo($v));
+            check_sub_assign(Foo($v));
+            check_mul_assign(Foo($v));
+            check_div_assign(Foo($v));
         }
     }
 }
@@ -46,3 +54,11 @@ fn check_hash(_: impl core::hash::Hash) {}
 fn check_default(_: impl Default) {}
 fn check_debug(_: impl core::fmt::Debug) {}
 fn check_from_str(_: impl core::str::FromStr) {}
+fn check_add<T: core::ops::Add<T>>(_: T) {}
+fn check_sub<T: core::ops::Add<T>>(_: T) {}
+fn check_mul<T: core::ops::Add<T>>(_: T) {}
+fn check_div<T: core::ops::Add<T>>(_: T) {}
+fn check_add_assign(_: impl core::ops::AddAssign) {}
+fn check_sub_assign(_: impl core::ops::SubAssign) {}
+fn check_mul_assign(_: impl core::ops::MulAssign) {}
+fn check_div_assign(_: impl core::ops::DivAssign) {}
