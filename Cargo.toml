@@ -1,6 +1,6 @@
 [package]
 name = "synonym"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Marcin Sas-Szymanski <sasik520@gmail.com>"]
 license-file = "LICENSE"
 description = "Customizable derive macro to create newtypes. It peeks into the underlying type to choose which traits should be implemented."
