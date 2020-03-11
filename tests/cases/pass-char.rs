@@ -13,6 +13,7 @@ fn main() {
     check_hash(Foo('x'));
     check_default(Foo('x'));
     check_debug(Foo('x'));
+    check_display(Foo('x'));
     check_as_ref(Foo('x'));
     check_from(Foo('x'));
     check_from_inner('x');
@@ -28,6 +29,7 @@ fn check_copy(_: impl Copy) {}
 fn check_hash(_: impl core::hash::Hash) {}
 fn check_default(_: impl Default) {}
 fn check_debug(_: impl core::fmt::Debug) {}
+fn check_display(_: impl core::fmt::Display) {}
 fn check_as_ref(_: impl AsRef<char>) {}
 fn check_from(_: impl From<char>) {}
 fn check_from_inner(_: impl From<Foo>) {}

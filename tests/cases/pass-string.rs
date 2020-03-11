@@ -12,6 +12,7 @@ fn main() {
     check_hash(Foo("x".to_string()));
     check_default(Foo("x".to_string()));
     check_debug(Foo("x".to_string()));
+    check_display(Foo("x".to_string()));
     check_as_ref(Foo("x".to_string()));
     check_from(Foo("x".to_string()));
     check_from_inner("x".to_string());
@@ -26,6 +27,7 @@ fn check_clone(_: impl Clone) {}
 fn check_hash(_: impl core::hash::Hash) {}
 fn check_default(_: impl Default) {}
 fn check_debug(_: impl core::fmt::Debug) {}
+fn check_display(_: impl core::fmt::Display) {}
 fn check_as_ref(_: impl AsRef<String>) {}
 fn check_from(_: impl From<String>) {}
 fn check_from_inner(_: impl From<Foo>) {}

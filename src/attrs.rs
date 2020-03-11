@@ -7,6 +7,8 @@ pub struct Attrs {
     pub force: ImplList,
     #[darling(rename = "caseinsensitive")]
     pub case_insensitive: bool, // TODO
+    #[darling(rename = "display", map = "parse_display_kind")]
+    pub display: DisplayKind
 }
 
 #[derive(Default, Debug, FromMeta)]
@@ -30,6 +32,8 @@ pub struct ImplList {
     pub default: bool,
     #[darling(rename = "Debug")]
     pub debug: bool,
+    #[darling(rename = "Display")]
+    pub display: bool,
     #[darling(rename = "FromStr")]
     pub from_str: bool,
     #[darling(rename = "AsRef")]
@@ -44,4 +48,39 @@ pub struct ImplList {
     pub string: bool,
     #[darling(rename = "Number")]
     pub number: bool,
+}
+
+#[derive(Debug, FromMeta)]
+pub enum DisplayKind {
+    Opaque,
+    Transparent,
+    UpperCase,
+    LowerCase,
+    OpaqueUpperCase,
+    OpaqueLowerCase,
+    Custom(String),
+}
+
+fn parse_display_kind(s: String) -> DisplayKind {
+    s.parse().unwrap()
+}
+
+impl core::str::FromStr for DisplayKind {
+    type Err = core::convert::Infallible;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_lowercase().as_str() {
+            "opaque" => Ok(DisplayKind::Opaque),
+            "transparent" => Ok(DisplayKind::Transparent),
+            "uppercase" => Ok(DisplayKind::UpperCase),
+            "lowercase" => Ok(DisplayKind::LowerCase),
+            "opaquelowercase" | "lowercaseopaque" => Ok(DisplayKind::OpaqueLowerCase),
+            "opaqueuppercase" | "uppercaseopaque" => Ok(DisplayKind::OpaqueUpperCase),
+            _ => Ok(DisplayKind::Custom(s.to_string()))
+        }
+    }
+}
+
+impl Default for DisplayKind {
+    fn default() -> Self { DisplayKind::Transparent }
 }

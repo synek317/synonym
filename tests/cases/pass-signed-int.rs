@@ -19,6 +19,7 @@ macro_rules! check {
             check_hash(Foo($v));
             check_default(Foo($v));
             check_debug(Foo($v));
+            check_display(Foo($v));
             check_as_ref(Foo($v));
             check_from(Foo($v));
             check_from_inner($v);
@@ -53,6 +54,7 @@ fn check_copy(_: impl Copy) {}
 fn check_hash(_: impl core::hash::Hash) {}
 fn check_default(_: impl Default) {}
 fn check_debug(_: impl core::fmt::Debug) {}
+fn check_display(_: impl core::fmt::Display) {}
 fn check_from_str(_: impl core::str::FromStr) {}
 fn check_add<T: core::ops::Add<T>>(_: T) {}
 fn check_sub<T: core::ops::Add<T>>(_: T) {}

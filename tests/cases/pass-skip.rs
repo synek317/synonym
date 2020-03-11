@@ -1,7 +1,7 @@
 use synonym::Synonym;
 
 #[derive(Synonym, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash, Default, Debug)]
-#[synonym(skip(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash, Default, Debug, AsRef, From, FromStr))]
+#[synonym(skip(PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash, Default, Debug, AsRef, From, FromStr, Display))]
 struct FooU32(u32);
 
 impl core::convert::AsRef<u32> for FooU32 {
@@ -26,6 +26,12 @@ impl ::core::str::FromStr for FooU32 {
     type Err = <u32 as ::core::str::FromStr>::Err;
 
     fn from_str(_s: &str) -> Result<Self, Self::Err> {
+        unimplemented!()
+    }
+}
+
+impl ::core::fmt::Display for FooU32 {
+    fn fmt(&self, _f: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
         unimplemented!()
     }
 }
