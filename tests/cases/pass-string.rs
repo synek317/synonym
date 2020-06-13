@@ -1,4 +1,5 @@
 use synonym::Synonym;
+use std::borrow::Borrow;
 
 #[derive(Synonym)]
 struct Foo(String);
@@ -17,6 +18,8 @@ fn main() {
     check_from(Foo("x".to_string()));
     check_from_inner("x".to_string());
     check_from_str(Foo("x".to_string()));
+    check_as_str(Foo("x".to_string()).as_str());
+    check_as_str(Foo("x".to_string()).borrow());
 }
 
 fn check_partial_eq(_: impl PartialEq) {}
@@ -32,3 +35,4 @@ fn check_as_ref(_: impl AsRef<String>) {}
 fn check_from(_: impl From<String>) {}
 fn check_from_inner(_: impl From<Foo>) {}
 fn check_from_str(_: impl core::str::FromStr) {}
+fn check_as_str(_: &str) {}
