@@ -1,5 +1,5 @@
-use crate::info::{Info, Kind};
 use crate::attrs::DisplayKind;
+use crate::info::{Info, Kind};
 use quote::quote;
 
 pub fn impl_display(info: &Info) -> proc_macro2::TokenStream {

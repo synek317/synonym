@@ -77,8 +77,7 @@ pub fn is_number(info: &Info) -> bool {
     }
 
     match info.kind {
-        | Kind::Integer
-        | Kind::Float => true,
+        Kind::Integer | Kind::Float => true,
         _ => false,
     }
 }

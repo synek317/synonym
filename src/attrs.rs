@@ -8,7 +8,7 @@ pub struct Attrs {
     #[darling(rename = "caseinsensitive")]
     pub case_insensitive: bool, // TODO
     #[darling(rename = "display", map = "parse_display_kind")]
-    pub display: DisplayKind
+    pub display: DisplayKind,
 }
 
 #[derive(Default, Debug, FromMeta)]
@@ -80,11 +80,13 @@ impl core::str::FromStr for DisplayKind {
             "lowercase" => Ok(DisplayKind::LowerCase),
             "opaquelowercase" | "lowercaseopaque" => Ok(DisplayKind::OpaqueLowerCase),
             "opaqueuppercase" | "uppercaseopaque" => Ok(DisplayKind::OpaqueUpperCase),
-            _ => Ok(DisplayKind::Custom(s.to_string()))
+            _ => Ok(DisplayKind::Custom(s.to_string())),
         }
     }
 }
 
 impl Default for DisplayKind {
-    fn default() -> Self { DisplayKind::Transparent }
+    fn default() -> Self {
+        DisplayKind::Transparent
+    }
 }

@@ -5,8 +5,8 @@ mod deriveable;
 mod display;
 mod from;
 mod from_str;
-mod string;
 mod number;
+mod string;
 
 pub use self::as_ref::*;
 pub use self::deref::*;
@@ -15,5 +15,5 @@ pub use self::deriveable::*;
 pub use self::display::*;
 pub use self::from::*;
 pub use self::from_str::*;
-pub use self::string::*;
 pub use self::number::*;
+pub use self::string::*;
