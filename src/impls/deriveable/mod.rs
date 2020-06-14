@@ -7,6 +7,8 @@ mod hash;
 mod ord;
 mod partial_eq;
 mod partial_ord;
+mod serialize;
+mod deserialize;
 
 pub use self::clone::*;
 pub use self::copy::*;
@@ -17,3 +19,5 @@ pub use self::hash::*;
 pub use self::ord::*;
 pub use self::partial_eq::*;
 pub use self::partial_ord::*;
+pub use self::serialize::*;
+pub use self::deserialize::*;
