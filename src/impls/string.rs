@@ -37,8 +37,5 @@ pub fn is_string(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::String => true,
-        _ => false,
-    }
+    matches!(info.kind, Kind::String)
 }

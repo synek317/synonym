@@ -12,7 +12,7 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
         name: input.ident.clone(),
         kind: Kind::Other,
         typ: syn::Type::Never(syn::TypeNever {
-            bang_token: syn::token::Bang::default(),
+            bang_token: syn::token::Not::default(),
         }),
         attrs: Attrs::from_derive_input(input).unwrap(),
     };
@@ -25,8 +25,13 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
                 }
 
                 info.typ = fields.unnamed.first().unwrap().ty.clone();
-                match &info.typ {
-                    syn::Type::Path(path) => {
+                if let syn::Type::Group(g) = info.typ {
+                    info.typ = *g.elem;
+                }
+
+                match info.typ {
+                    syn::Type::Path(ref path)
+                        => {
                         if let Some(type_name) =
                             path.path.segments.first().map(|ps| ps.ident.to_string())
                         {
@@ -40,12 +45,12 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
                             }
                         }
                     }
-                    _ => return None,
+                    _ => return None
                 }
             }
-            _ => return None,
+            _ => return None
         },
-        _ => return None,
+        _ => return None
     }
 
     Some(info)

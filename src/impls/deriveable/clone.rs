@@ -1,4 +1,4 @@
-use crate::info::{Info, Kind};
+use crate::{is_copy, info::{Info, Kind}};
 use quote::quote;
 
 pub fn impl_clone(info: &Info) -> proc_macro2::TokenStream {
@@ -8,10 +8,21 @@ pub fn impl_clone(info: &Info) -> proc_macro2::TokenStream {
 
     let name = &info.name;
 
-    quote! {
-        impl ::core::clone::Clone for #name {
-            fn clone(&self) -> Self {
-                Self(self.0.clone())
+    if is_copy(info) {
+        quote! {
+            impl ::core::clone::Clone for #name {
+                fn clone(&self) -> Self {
+                    *self
+                }
+            }
+        }
+    }
+    else {
+        quote! {
+            impl ::core::clone::Clone for #name {
+                fn clone(&self) -> Self {
+                    Self(self.0.clone())
+                }
             }
         }
     }
@@ -25,8 +36,5 @@ pub fn is_clone(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char => true,
-        _ => false,
-    }
+    matches!(info.kind, Kind::Integer | Kind::Float | Kind::String | Kind::Char)
 }

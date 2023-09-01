@@ -21,8 +21,5 @@ pub fn is_copy(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::Integer | Kind::Float | Kind::Char => true,
-        _ => false,
-    }
+    matches!(info.kind, Kind::Integer | Kind::Float | Kind::Char)
 }

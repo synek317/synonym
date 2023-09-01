@@ -25,8 +25,5 @@ pub fn is_default(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char => true,
-        _ => false,
-    }
+    matches!(info.kind, Kind::Integer | Kind::Float | Kind::String | Kind::Char)
 }

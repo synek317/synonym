@@ -54,9 +54,10 @@ pub struct ImplList {
     pub deserialize: bool,
 }
 
-#[derive(Debug, FromMeta)]
+#[derive(Debug, FromMeta, Default)]
 pub enum DisplayKind {
     Opaque,
+    #[default]
     Transparent,
     UpperCase,
     LowerCase,
@@ -82,11 +83,5 @@ impl core::str::FromStr for DisplayKind {
             "opaqueuppercase" | "uppercaseopaque" => Ok(DisplayKind::OpaqueUpperCase),
             _ => Ok(DisplayKind::Custom(s.to_string())),
         }
-    }
-}
-
-impl Default for DisplayKind {
-    fn default() -> Self {
-        DisplayKind::Transparent
     }
 }

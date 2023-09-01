@@ -52,8 +52,5 @@ pub fn is_display(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::Other => false,
-        _ => true,
-    }
+    !matches!(info.kind, Kind::Other)
 }
