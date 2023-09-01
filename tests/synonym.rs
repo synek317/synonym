@@ -4,6 +4,6 @@ use synonym::Synonym;
 // this test only ensures that cargo clippy doesn't show a warning
 #[test]
 fn clone_derived_() {
-  #[derive(Synonym)]
-  struct Foo(u32);
+    #[derive(Synonym)]
+    struct Foo(u32);
 }

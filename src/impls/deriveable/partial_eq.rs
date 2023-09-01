@@ -25,5 +25,8 @@ pub fn is_partial_eq(info: &Info) -> bool {
         return false;
     }
 
-    matches!(info.kind, Kind::Integer | Kind::Float | Kind::String | Kind::Char)
+    matches!(
+        info.kind,
+        Kind::Integer | Kind::Float | Kind::String | Kind::Char
+    )
 }

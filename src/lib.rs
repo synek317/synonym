@@ -1,5 +1,5 @@
 //! # Overview
-//! 
+//!
 //! The `synonym` library is a Rust crate designed to simplify the creation of newtypes. It provides a customizable `#[derive(Synonym)]` macro that automatically implements various traits based on the underlying type of your newtype. This saves you from the boilerplate code usually required when defining newtypes.
 //!
 //! # Usage
@@ -44,7 +44,7 @@
 //! }
 //! // ... and so on for other traits
 //! ```
-//! 
+//!
 //! # Trait implementation table
 //!
 //! | Kind    | Traits / Methods Implemented |
@@ -53,7 +53,6 @@
 //! | Float<br>`f32`, `f64`   | `PartialEq`, `PartialOrd`, `Clone`, `Default`, `Debug`, `Add`, `Sub`, `Mul`, `Div`, `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`, `FromStr`, `From`, `AsRef`, `Deref` |
 //! | String<br>`String`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
 //! | Char<br>`char`    | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref` |
-
 
 extern crate proc_macro;
 

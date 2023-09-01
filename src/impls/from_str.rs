@@ -28,5 +28,8 @@ pub fn is_from_str(info: &Info) -> bool {
         return false;
     }
 
-    matches!(info.kind, Kind::Integer | Kind::Float | Kind::String | Kind::Char)
+    matches!(
+        info.kind,
+        Kind::Integer | Kind::Float | Kind::String | Kind::Char
+    )
 }

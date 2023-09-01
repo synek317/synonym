@@ -30,8 +30,7 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
                 }
 
                 match info.typ {
-                    syn::Type::Path(ref path)
-                        => {
+                    syn::Type::Path(ref path) => {
                         if let Some(type_name) =
                             path.path.segments.first().map(|ps| ps.ident.to_string())
                         {
@@ -45,12 +44,12 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
                             }
                         }
                     }
-                    _ => return None
+                    _ => return None,
                 }
             }
-            _ => return None
+            _ => return None,
         },
-        _ => return None
+        _ => return None,
     }
 
     Some(info)
