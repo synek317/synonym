@@ -62,6 +62,44 @@ impl PartialEq for MyInt {
 | String<br>`String`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
 | Char<br>`char`    | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref` |
 
+## Fine-tuning
+
+### Display
+To specify how the Display trait should be implemented, you can use the `#[synonym(display = "...")]` attribute. Here are the available options:
+
+* `Opaque`: Formats the output as TypeName(Value).
+* `Transparent`: Directly uses the inner type's Display implementation.
+* `UpperCase`: Converts the inner value to uppercase before displaying.
+* `LowerCase`: Converts the inner value to lowercase before displaying.
+* `OpaqueUpperCase`: Formats the output as TypeName(VALUE) where VALUE is uppercase.
+* `OpaqueLowerCase`: Formats the output as TypeName(value) where value is lowercase.
+* `Custom string`: Allows for a custom format string
+
+#### Examples
+```rust
+#[derive(Synonym)]
+#[synonym(display = "UpperCase")]
+struct CountryName(String);
+
+#[derive(Synonym)]
+#[synonym(display = "::<> {} <>::")]
+struct Turbo(String);
+```
+
+### Serde Support
+
+To enable Serde support for serialization and deserialization, you'll need to enable the `with_serde` feature flag in your `Cargo.toml`:
+
+```toml
+[dependencies]
+synonym = { version = "0.1.0", features = ["with_serde"] }
+```
+
+With this feature enabled, the `Serialize` and `Deserialize` traits will be automatically implemented for your type.
+
+---
+This documentation was generated with the assistance of ChatGPT-4 by OpenAI.
+
 ## License
 
 Licensed under of MIT license ([LICENSE-MIT](LICENSE-MIT) or https://opensource.org/licenses/MIT)
