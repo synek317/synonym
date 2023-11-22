@@ -1,4 +1,4 @@
-use crate::info::{Info, Kind};
+use crate::{info::{Info, Kind}, impls::is_ord};
 use quote::quote;
 
 pub fn impl_partial_ord(info: &Info) -> proc_macro2::TokenStream {
@@ -8,10 +8,21 @@ pub fn impl_partial_ord(info: &Info) -> proc_macro2::TokenStream {
 
     let name = &info.name;
 
-    quote! {
-        impl ::core::cmp::PartialOrd for #name {
-            fn partial_cmp(&self, other: &Self) -> Option<::core::cmp::Ordering> {
-                ::core::cmp::PartialOrd::partial_cmp(&self.0, &other.0)
+    if is_ord(info) {
+        quote! {
+            impl ::core::cmp::PartialOrd for #name {
+                fn partial_cmp(&self, other: &Self) -> Option<::core::cmp::Ordering> {
+                    Some(self.cmp(other))
+                }
+            }
+        }
+    }
+    else {
+        quote! {
+            impl ::core::cmp::PartialOrd for #name {
+                fn partial_cmp(&self, other: &Self) -> Option<::core::cmp::Ordering> {
+                    ::core::cmp::PartialOrd::partial_cmp(&self.0, &other.0)
+                }
             }
         }
     }
