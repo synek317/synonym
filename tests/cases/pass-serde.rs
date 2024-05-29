@@ -1,24 +1,29 @@
-use synonym::Synonym;
-use serde::{Serialize, Deserialize};
-
-macro_rules! check {
-    ($t:ty, $v:expr, $json:expr) => {
-        {
-            #[derive(Synonym)]
-            struct Foo($t);
-
-            let foo = Foo($v);
-            let json = serde_json::to_string(&foo).unwrap();
-            let deserialized = serde_json::from_str(&json).unwrap();
-
-            assert_eq!(foo, deserialized);
-            assert_eq!(json, $json);
-        }
-    }
+#[cfg(not(feature = "with_serde"))]
+fn main() {
+    panic!("This test requires the 'with_serde' feature to be enabled. Run with `cargo test --features with_serde` or `cargo test --all-features`");
 }
 
-
+#[cfg(feature = "with_serde")]
 fn main() {
+    use synonym::Synonym;
+    use serde::{Serialize, Deserialize};
+
+    macro_rules! check {
+        ($t:ty, $v:expr, $json:expr) => {
+            {
+                #[derive(Synonym)]
+                struct Foo($t);
+
+                let foo = Foo($v);
+                let json = serde_json::to_string(&foo).unwrap();
+                let deserialized = serde_json::from_str(&json).unwrap();
+
+                assert_eq!(foo, deserialized);
+                assert_eq!(json, $json);
+            }
+        }
+    }
+
     check!(u8, 1u8, "1");
     check!(u16, 2u16, "2");
     check!(u32, 3u32, "3");
