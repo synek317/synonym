@@ -22,7 +22,7 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
         }
 
         impl #name {
-            fn as_str(&self) -> &str {
+            pub fn as_str(&self) -> &str {
                 &self.0
             }
         }

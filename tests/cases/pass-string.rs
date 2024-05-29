@@ -1,8 +1,15 @@
-use synonym::Synonym;
 use std::borrow::Borrow;
 
-#[derive(Synonym)]
-struct Foo(String);
+// define Foo in a module to make sure methods defined directly for Foo (e.g. as_str) are accessible
+
+mod dummy {
+    use synonym::Synonym;
+
+    #[derive(Synonym)]
+    pub struct Foo(pub String);
+}
+
+use dummy::Foo;
 
 fn main() {
     check_partial_eq(Foo("x".to_string()));
