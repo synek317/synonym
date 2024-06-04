@@ -16,7 +16,7 @@ To use `synonym`, add it to your Cargo.toml:
 
 ```toml
 [dependencies]
-synonym = "0.1.2"
+synonym = "0.1.3"
 ```
 
 ### Basic example
@@ -92,7 +92,7 @@ To enable Serde support for serialization and deserialization, you'll need to en
 
 ```toml
 [dependencies]
-synonym = { version = "0.1.2", features = ["with_serde"] }
+synonym = { version = "0.1.3", features = ["with_serde"] }
 ```
 
 With this feature enabled, the `Serialize` and `Deserialize` traits will be automatically implemented for your type.
