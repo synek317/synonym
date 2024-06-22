@@ -52,7 +52,7 @@
 //! | Integer<br>`u8`, `u16`, `u32`, `u64`, `u128`, `usize`,<br>`i8`, `i16`, `i32`, `i64`, `i128`, `isize` |  `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Default`, `Debug`, `Add`, `Sub`, `Mul`, `Div`, `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`, `FromStr`, `From`, `AsRef`, `Deref` |
 //! | Float<br>`f32`, `f64`   | `PartialEq`, `PartialOrd`, `Clone`, `Default`, `Debug`, `Add`, `Sub`, `Mul`, `Div`, `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`, `FromStr`, `From`, `AsRef`, `Deref` |
 //! | String<br>`String`, `Box<str>`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
-//! //! | String<br>`&'static str`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
+//! | String<br>`&'static str`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
 //! | Char<br>`char`    | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref` |
 //!
 //! # Fine-tuning
