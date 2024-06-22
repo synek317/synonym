@@ -1,6 +1,7 @@
 use crate::attrs::Attrs;
 use crate::info::{Info, Kind};
 use darling::FromDeriveInput;
+use quote::ToTokens;
 use syn::{Data, DeriveInput, Fields};
 
 pub fn analyze(input: &DeriveInput) -> Option<Info> {
@@ -29,23 +30,24 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
                     info.typ = *g.elem;
                 }
 
-                match info.typ {
-                    syn::Type::Path(ref path) => {
-                        if let Some(type_name) =
-                            path.path.segments.first().map(|ps| ps.ident.to_string())
-                        {
-                            info.kind = match &*type_name {
-                                "u8" | "u16" | "u32" | "u64" | "u128" | "usize" | "i8" | "i16"
-                                | "i32" | "i64" | "i128" | "isize" => Kind::Integer,
-                                "f32" | "f64" => Kind::Float,
-                                "String" => Kind::String,
-                                "char" => Kind::Char,
-                                _ => Kind::Other,
-                            }
-                        }
-                    }
-                    _ => return None,
-                }
+                info.kind = match info
+                    .typ
+                    .to_token_stream()
+                    .to_string()
+                    .replace("std :: string :: ", "")
+                    .replace("std :: primitive :: ", "")
+                    .replace("core :: primitive :: ", "")
+                    .as_str()
+                {
+                    "u8" | "u16" | "u32" | "u64" | "u128" | "usize" | "i8" | "i16" | "i32"
+                    | "i64" | "i128" | "isize" => Kind::Integer,
+                    "f32" | "f64" => Kind::Float,
+                    "String" => Kind::String,
+                    "Box < str >" => Kind::BoxStr,
+                    "& 'static str" => Kind::StaticStr,
+                    "char" => Kind::Char,
+                    _ => Kind::Other,
+                };
             }
             _ => return None,
         },

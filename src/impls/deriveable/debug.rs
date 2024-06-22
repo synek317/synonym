@@ -1,4 +1,4 @@
-use crate::info::{Info, Kind};
+use crate::info::Info;
 use quote::quote;
 
 pub fn impl_debug(info: &Info) -> proc_macro2::TokenStream {
@@ -28,8 +28,5 @@ pub fn is_debug(info: &Info) -> bool {
         return false;
     }
 
-    matches!(
-        info.kind,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char
-    )
+    info.kind.is_debug()
 }

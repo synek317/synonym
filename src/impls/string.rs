@@ -8,16 +8,10 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
 
     let name = &info.name;
 
-    quote! {
+    let mut tokens = quote! {
         impl ::core::borrow::Borrow<str> for #name {
             fn borrow(&self) -> &str {
                 &self.0
-            }
-        }
-
-        impl<'a> ::core::convert::From<&'a str> for #name {
-            fn from(s: &'a str) -> Self {
-                Self(::core::convert::From::from(s))
             }
         }
 
@@ -27,7 +21,19 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
                 &self.0
             }
         }
+    };
+
+    if info.kind != Kind::StaticStr {
+        tokens.extend(quote! {
+            impl<'a> ::core::convert::From<&'a str> for #name {
+                fn from(s: &'a str) -> Self {
+                    Self(::core::convert::From::from(s))
+                }
+            }
+        });
     }
+
+    tokens
 }
 
 pub fn is_string(info: &Info) -> bool {
@@ -38,5 +44,5 @@ pub fn is_string(info: &Info) -> bool {
         return false;
     }
 
-    matches!(info.kind, Kind::String)
+    info.kind.is_string()
 }

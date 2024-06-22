@@ -9,12 +9,24 @@ pub fn impl_from_str(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
     let typ = &info.typ;
 
-    quote! {
-        impl ::core::str::FromStr for #name {
-            type Err = <#typ as ::core::str::FromStr>::Err;
+    if info.kind == Kind::BoxStr {
+        quote! {
+            impl ::core::str::FromStr for #name {
+                type Err = ::core::convert::Infallible;
 
-            fn from_str(s: &str) -> Result<Self, Self::Err> {
-                ::core::str::FromStr::from_str(s).map(Self)
+                fn from_str(s: &str) -> Result<Self, Self::Err> {
+                    Ok(Self(s.to_owned().into_boxed_str()))
+                }
+            }
+        }
+    } else {
+        quote! {
+            impl ::core::str::FromStr for #name {
+                type Err = <#typ as ::core::str::FromStr>::Err;
+
+                fn from_str(s: &str) -> Result<Self, Self::Err> {
+                    ::core::str::FromStr::from_str(s).map(Self)
+                }
             }
         }
     }
@@ -28,8 +40,5 @@ pub fn is_from_str(info: &Info) -> bool {
         return false;
     }
 
-    matches!(
-        info.kind,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char
-    )
+    info.kind.is_from_str()
 }

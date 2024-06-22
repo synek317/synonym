@@ -22,8 +22,6 @@ pub fn impl_serialize(info: &Info) -> proc_macro2::TokenStream {
 
 #[cfg(any(test, feature = "with_serde"))]
 pub fn is_serialize(info: &Info) -> bool {
-    use crate::info::Kind;
-
     if info.attrs.force.serialize {
         return true;
     }
@@ -31,10 +29,7 @@ pub fn is_serialize(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::Other => false,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char => true,
-    }
+    info.kind.is_serialize()
 }
 
 #[cfg(not(any(test, feature = "with_serde")))]

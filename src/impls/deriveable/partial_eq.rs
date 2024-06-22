@@ -1,4 +1,4 @@
-use crate::info::{Info, Kind};
+use crate::info::Info;
 use quote::quote;
 
 pub fn impl_partial_eq(info: &Info) -> proc_macro2::TokenStream {
@@ -25,8 +25,5 @@ pub fn is_partial_eq(info: &Info) -> bool {
         return false;
     }
 
-    matches!(
-        info.kind,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char
-    )
+    info.kind.is_partial_eq()
 }

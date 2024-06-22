@@ -1,4 +1,4 @@
-use crate::{info::{Info, Kind}, impls::is_ord};
+use crate::{impls::is_ord, info::Info};
 use quote::quote;
 
 pub fn impl_partial_ord(info: &Info) -> proc_macro2::TokenStream {
@@ -16,8 +16,7 @@ pub fn impl_partial_ord(info: &Info) -> proc_macro2::TokenStream {
                 }
             }
         }
-    }
-    else {
+    } else {
         quote! {
             impl ::core::cmp::PartialOrd for #name {
                 fn partial_cmp(&self, other: &Self) -> Option<::core::cmp::Ordering> {
@@ -36,8 +35,5 @@ pub fn is_partial_ord(info: &Info) -> bool {
         return false;
     }
 
-    matches!(
-        info.kind,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char
-    )
+    info.kind.is_partial_ord()
 }

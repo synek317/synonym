@@ -1,5 +1,5 @@
 use crate::attrs::DisplayKind;
-use crate::info::{Info, Kind};
+use crate::info::Info;
 use quote::quote;
 
 pub fn impl_display(info: &Info) -> proc_macro2::TokenStream {
@@ -52,5 +52,5 @@ pub fn is_display(info: &Info) -> bool {
         return false;
     }
 
-    !matches!(info.kind, Kind::Other)
+    info.kind.is_display()
 }

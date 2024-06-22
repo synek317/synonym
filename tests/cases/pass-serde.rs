@@ -32,6 +32,7 @@ fn main() {
     check!(usize, 6usize, "6");
     check!(usize, 7usize, "7");
     check!(String, "Foo".to_string(), r#""Foo""#);
+    check!(Box<str>, "Foo".to_string().into_boxed_str(), r#""Foo""#);
     check!(char, 'X', r#""X""#);
 
     #[derive(Synonym)]

@@ -15,7 +15,7 @@ pub fn impl_deserialize(info: &Info) -> proc_macro2::TokenStream {
             where
                 D: ::serde::Deserializer<'de>,
             {
-                #typ::deserialize(deserializer).map(#name)
+                <#typ as ::serde::Deserialize<'de>>::deserialize(deserializer).map(#name)
             }
         }
     }
@@ -23,8 +23,6 @@ pub fn impl_deserialize(info: &Info) -> proc_macro2::TokenStream {
 
 #[cfg(any(test, feature = "with_serde"))]
 pub fn is_deserialize(info: &Info) -> bool {
-    use crate::info::Kind;
-
     if info.attrs.force.serialize {
         return true;
     }
@@ -32,10 +30,7 @@ pub fn is_deserialize(info: &Info) -> bool {
         return false;
     }
 
-    match info.kind {
-        Kind::Other => false,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char => true,
-    }
+    info.kind.is_deserialize()
 }
 
 #[cfg(not(any(test, feature = "with_serde")))]

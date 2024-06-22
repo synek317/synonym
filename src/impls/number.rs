@@ -1,4 +1,4 @@
-use crate::info::{Info, Kind};
+use crate::info::Info;
 use quote::quote;
 
 pub fn impl_number(info: &Info) -> proc_macro2::TokenStream {
@@ -7,7 +7,6 @@ pub fn impl_number(info: &Info) -> proc_macro2::TokenStream {
     }
 
     let name = &info.name;
-    // let typ = &info.typ;
 
     quote! {
         impl ::core::ops::Add<#name> for #name {
@@ -76,5 +75,5 @@ pub fn is_number(info: &Info) -> bool {
         return false;
     }
 
-    matches!(info.kind, Kind::Integer | Kind::Float)
+    info.kind.is_number()
 }

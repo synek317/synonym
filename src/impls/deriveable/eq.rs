@@ -1,4 +1,4 @@
-use crate::info::{Info, Kind};
+use crate::info::Info;
 use quote::quote;
 
 pub fn impl_eq(info: &Info) -> proc_macro2::TokenStream {
@@ -21,5 +21,5 @@ pub fn is_eq(info: &Info) -> bool {
         return false;
     }
 
-    matches!(info.kind, Kind::Integer | Kind::String | Kind::Char)
+    info.kind.is_eq()
 }

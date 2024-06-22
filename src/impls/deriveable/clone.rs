@@ -1,7 +1,4 @@
-use crate::{
-    info::{Info, Kind},
-    is_copy,
-};
+use crate::{info::Info, is_copy};
 use quote::quote;
 
 pub fn impl_clone(info: &Info) -> proc_macro2::TokenStream {
@@ -38,8 +35,5 @@ pub fn is_clone(info: &Info) -> bool {
         return false;
     }
 
-    matches!(
-        info.kind,
-        Kind::Integer | Kind::Float | Kind::String | Kind::Char
-    )
+    info.kind.is_clone()
 }
