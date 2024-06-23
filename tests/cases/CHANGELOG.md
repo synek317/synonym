@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Add `Box<str>` and `&'static str` synonyms
+* Add `NonZero*` synonyms
 
 ## 0.1.3 (2024-06-05)
 

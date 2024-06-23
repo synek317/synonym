@@ -35,12 +35,16 @@ pub fn analyze(input: &DeriveInput) -> Option<Info> {
                     .to_token_stream()
                     .to_string()
                     .replace("std :: string :: ", "")
+                    .replace("std :: num :: ", "")
                     .replace("std :: primitive :: ", "")
                     .replace("core :: primitive :: ", "")
                     .as_str()
                 {
                     "u8" | "u16" | "u32" | "u64" | "u128" | "usize" | "i8" | "i16" | "i32"
                     | "i64" | "i128" | "isize" => Kind::Integer,
+                    "NonZeroU8" | "NonZeroU16" | "NonZeroU32" | "NonZeroU64" | "NonZeroU128"
+                    | "NonZeroUsize" | "NonZeroI8" | "NonZeroI16" | "NonZeroI32" | "NonZeroI64"
+                    | "NonZeroI128" | "NonZeroIsize" => Kind::NonZeroInteger,
                     "f32" | "f64" => Kind::Float,
                     "String" => Kind::String,
                     "Box < str >" => Kind::BoxStr,
