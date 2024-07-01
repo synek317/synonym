@@ -8,7 +8,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! synonym = "0.1.4"
+//! synonym = "0.1.5"
 //! ```
 //!
 //! ## Basic example
@@ -149,7 +149,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! synonym = { version = "0.1.4", features = ["with_serde"] }
+//! synonym = { version = "0.1.5", features = ["with_serde"] }
 //! ```
 //!
 //! With this feature enabled, the `Serialize` and `Deserialize` traits will be automatically implemented for your type.
