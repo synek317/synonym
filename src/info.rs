@@ -69,6 +69,7 @@ impl Kind {
         }
     }
 
+    #[cfg(any(test, feature = "with_serde"))]
     pub fn is_deserialize(&self) -> bool {
         match self {
             Kind::Integer
@@ -143,6 +144,7 @@ impl Kind {
         }
     }
 
+    #[cfg(any(test, feature = "with_serde"))]
     pub fn is_serialize(&self) -> bool {
         match self {
             Kind::Integer
