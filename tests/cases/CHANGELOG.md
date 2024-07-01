@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.1.4 (2024-07-01)
 
 * Add `Box<str>` and `&'static str` synonyms
 * Add `NonZero*` synonyms
