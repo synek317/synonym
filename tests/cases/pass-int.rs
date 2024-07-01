@@ -1,14 +1,18 @@
-use synonym::Synonym;
-use std::num::{NonZeroU8, NonZeroU16, NonZeroU32, NonZeroU64, NonZeroU128, NonZeroUsize, NonZeroI8, NonZeroI16, NonZeroI32, NonZeroI64, NonZeroI128, NonZeroIsize};
-
 macro_rules! check {
     ($t:ty, $v:expr) => {
-        #[derive(Synonym)]
-        struct Foo($t);
+        mod dummy {
+            use synonym::Synonym;
+
+            #[derive(Synonym)]
+            pub struct Foo(pub $t);
+        }
+
+        use dummy::Foo;
 
         fn check_as_ref(_: impl AsRef<$t>) {}
         fn check_from(_: impl From<$t>) {}
         fn check_from_inner(_: impl From<Foo>) {}
+        fn check_value(_: $t) {}
 
         check_partial_eq(Foo($v));
         check_eq(Foo($v));
@@ -23,6 +27,7 @@ macro_rules! check {
         check_from(Foo($v));
         check_from_inner($v);
         check_from_str(Foo($v));
+        check_value(Foo($v).value());
     };
     (builtin; $t:ty, $v:expr) => {
         {
@@ -60,19 +65,19 @@ fn main() {
     check!(builtin; i128,  1i128);
     check!(builtin; isize, 1isize);
 
-    check!(nonzero; NonZeroU8,    NonZeroU8::new(1).unwrap());
-    check!(nonzero; NonZeroU16,   NonZeroU16::new(1).unwrap());
-    check!(nonzero; NonZeroU32,   NonZeroU32::new(1).unwrap());
-    check!(nonzero; NonZeroU64,   NonZeroU64::new(1).unwrap());
-    check!(nonzero; NonZeroU128,  NonZeroU128::new(1).unwrap());
-    check!(nonzero; NonZeroUsize, NonZeroUsize::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroU8,    std::num::NonZeroU8::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroU16,   std::num::NonZeroU16::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroU32,   std::num::NonZeroU32::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroU64,   std::num::NonZeroU64::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroU128,  std::num::NonZeroU128::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroUsize, std::num::NonZeroUsize::new(1).unwrap());
 
-    check!(nonzero; NonZeroI8,    NonZeroI8::new(1).unwrap());
-    check!(nonzero; NonZeroI16,   NonZeroI16::new(1).unwrap());
-    check!(nonzero; NonZeroI32,   NonZeroI32::new(1).unwrap());
-    check!(nonzero; NonZeroI64,   NonZeroI64::new(1).unwrap());
-    check!(nonzero; NonZeroI128,  NonZeroI128::new(1).unwrap());
-    check!(nonzero; NonZeroIsize, NonZeroIsize::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroI8,    std::num::NonZeroI8::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroI16,   std::num::NonZeroI16::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroI32,   std::num::NonZeroI32::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroI64,   std::num::NonZeroI64::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroI128,  std::num::NonZeroI128::new(1).unwrap());
+    check!(nonzero; std::num::NonZeroIsize, std::num::NonZeroIsize::new(1).unwrap());
 }
 
 fn check_partial_eq(_: impl PartialEq) {}

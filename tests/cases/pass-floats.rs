@@ -1,14 +1,19 @@
-use synonym::Synonym;
-
 macro_rules! check {
     ($t:ty, $v:expr) => {
         {
-            #[derive(Synonym)]
-            struct Foo($t);
+            mod dummy {
+                use synonym::Synonym;
+
+                #[derive(Synonym)]
+                pub struct Foo(pub $t);
+            }
+
+            use dummy::Foo;
 
             fn check_as_ref(_: impl AsRef<$t>) {}
             fn check_from(_: impl From<$t>) {}
             fn check_from_inner(_: impl From<Foo>) {}
+            fn check_value(_: $t) {}
 
             check_partial_eq(Foo($v));
             check_partial_ord(Foo($v));
@@ -21,6 +26,7 @@ macro_rules! check {
             check_from(Foo($v));
             check_from_inner($v);
             check_from_str(Foo($v));
+            check_value(Foo($v).value());
             check_add(Foo($v));
             check_sub(Foo($v));
             check_mul(Foo($v));

@@ -4,6 +4,10 @@
 
 * Add `Box<str>` and `&'static str` synonyms
 * Add `NonZero*` synonyms
+* Add `.value()` method
+* Add `From<String>` for `Box<str>` synonyms
+* Optimize `FromStr` for `Box<str>` synonyms
+* Reorganize the documentation
 
 ## 0.1.3 (2024-06-05)
 

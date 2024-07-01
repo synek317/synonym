@@ -26,6 +26,7 @@ macro_rules! check {
         fn check_from(_: impl From<$t>) {}
         fn check_from_inner(_: impl From<Foo>) {}
         fn check_as_str(_: &str) {}
+        fn check_from_string(_: impl From<String>) {}
 
         check_partial_eq(Foo($v));
         check_eq(Foo($v));
@@ -42,22 +43,31 @@ macro_rules! check {
         check_as_str(Foo($v).as_str());
         check_as_str(Foo($v).borrow());
     };
-    (with from_str; $t:ty, $v:expr) => {
+    (non-static str; $t:ty, $v:expr) => {
         {
             check!($t, $v);
             fn check_from_str(_: impl core::str::FromStr) {}
+            fn check_value(_: &$t) {}
+
             check_from_str(Foo($v));
+            check_value(Foo($v).value());
+            check_from_string(Foo($v));
         }
     };
-    (without from_str; $t:ty, $v:expr) => {
+    (static str; $t:ty, $v:expr) => {
         {
             check!($t, $v);
+            fn check_copy(_: impl core::marker::Copy) {}
+            fn check_value(_: $t) {}
+
+            check_copy(Foo($v));
+            check_value(Foo($v).value());
         }
     }
 }
 
 fn main() {
-    check!(with from_str; String, "x".to_string());
-    check!(with from_str; Box<str>, "x".to_string().into_boxed_str());
-    check!(without from_str; &'static str, "x");
+    check!(non-static str; String, "x".to_string());
+    check!(non-static str; Box<str>, "x".to_string().into_boxed_str());
+    check!(static str; &'static str, "x");
 }

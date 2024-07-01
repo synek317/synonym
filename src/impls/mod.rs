@@ -7,6 +7,7 @@ mod from;
 mod from_str;
 mod number;
 mod string;
+mod value;
 
 pub use self::as_ref::*;
 pub use self::deref::*;
@@ -17,3 +18,4 @@ pub use self::from::*;
 pub use self::from_str::*;
 pub use self::number::*;
 pub use self::string::*;
+pub use self::value::*;

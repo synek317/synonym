@@ -15,7 +15,7 @@ pub fn impl_from_str(info: &Info) -> proc_macro2::TokenStream {
                 type Err = ::core::convert::Infallible;
 
                 fn from_str(s: &str) -> Result<Self, Self::Err> {
-                    Ok(Self(s.to_owned().into_boxed_str()))
+                    Ok(Self(s.into()))
                 }
             }
         }

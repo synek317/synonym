@@ -52,6 +52,8 @@ pub struct ImplList {
     pub serialize: bool,
     #[darling(rename = "Deserialize")]
     pub deserialize: bool,
+    #[darling(rename = "Value")]
+    pub value: bool,
 }
 
 #[derive(Debug, FromMeta, Default)]

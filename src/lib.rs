@@ -33,6 +33,8 @@
 //! pub struct MyString(String);
 //! ```
 //!
+//! Supported `skip` and `force` values are listed in the *Trait implementation table* below.
+//!
 //! # Generated code
 //! When you use `#[derive(Synonym)]`, the library generates implementations for various traits. Here's a simplified example for a newtype `MyInt(i32)`:
 //! ```rust
@@ -47,14 +49,75 @@
 //!
 //! # Trait implementation table
 //!
-//! | Kind    | Traits / Methods Implemented |
-//! | ------- | ---------------------------- |
-//! | Integer<br>`u8`, `u16`, `u32`, `u64`, `u128`, `usize`,<br>`i8`, `i16`, `i32`, `i64`, `i128`, `isize` |  `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Default`, `Debug`, `Add`, `Sub`, `Mul`, `Div`, `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`, `FromStr`, `From`, `AsRef`, `Deref` |
-//! | Integer<br>`NonZeroU8`, `NonZeroU16`, `NonZeroU32`, `NonZeroU64`, `NonZeroU128`, `NonZeroUsize`,<br>`NonZeroI8`, `NonZeroI16`, `NonZeroI32`, `NonZeroI64`, `NonZeroI128`, `NonZeroIsize` |  `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref` |
-//! | Float<br>`f32`, `f64`   | `PartialEq`, `PartialOrd`, `Clone`, `Default`, `Debug`, `Add`, `Sub`, `Mul`, `Div`, `AddAssign`, `SubAssign`, `MulAssign`, `DivAssign`, `FromStr`, `From`, `AsRef`, `Deref` |
-//! | String<br>`String`, `Box<str>`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
-//! | String<br>`&'static str`  | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Hash`, `Default`, `Debug`, `From`, `AsRef`, `Deref`, `Borrow<str>`, `as_str()` |
-//! | Char<br>`char`    | `Eq`, `PartialEq`, `Ord`, `PartialOrd`, `Clone`, `Copy`, `Hash`, `Default`, `Debug`, `FromStr`, `From`, `AsRef`, `Deref` |
+//! Custom methods
+//!
+//! |                  | skip/force  | `Integer` [1] | `NonZero*` | `Float` | `String` | `Box<str>` | `&'static str` | `char` |
+//! |------------------|-------------|---------------|------------|---------|----------|------------|----------------|--------|
+//! | .as_str()        | String      |               |            |         |     v    |      v     |        v       |    v   |
+//! | .value() [2]     | Value       |      v        |      v     |    v    |     v    |      v     |        v       |    v   |
+//!
+//!
+//! Conversion
+//!
+//! |                  | skip/force  | `Integer` [1] | `NonZero*` | `Float` | `String` | `Box<str>` | `&'static str` | `char` |
+//! |------------------|-------------|---------------|------------|---------|----------|------------|----------------|--------|
+//! | AsRef<Inner>     | AsRef       |        v      |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | Borrow<str>      | String      |               |            |         |     v    |      v     |        v       |        |
+//! | From<&'a str>    | String      |               |            |         |     v    |      v [4] |                |        |
+//! | From<String>     | String      |               |            |         |          |      v     |                |        |
+//! | Deref<Inner> [3] | Deref       |               |            |         |          |            |                |        |
+//! | DerefMut     [3] | DerefMut    |               |            |         |          |            |                |        |
+//! | From<Inner>      | From        |        v      |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | FromStr          | FromStr     |        v      |      v     |    v    |     v    |      v     |                |    v   |
+//!
+//! Fundamental traits
+//!
+//! |                  | skip/force  | `Integer` [1] | `NonZero*` | `Float` | `String` | `Box<str>` | `&'static str` | `char` |
+//! |------------------|-------------|---------------|------------|---------|----------|------------|----------------|--------|
+//! | Clone            | Clone       |        v      |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | Copy             | Copy        |        v      |      v     |    v    |                       |        v       |    v   |
+//! | Debug            | Debug       |        v      |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | Default          | Default     |        v      |            |    v    |     v    |      v     |        v       |    v   |
+//! | Display [5]      | Display     |        v      |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | Hash             | Hash        |        v      |      v     |         |     v    |      v     |        v       |    v   |
+//!
+//! Comparison
+//!
+//! |                  | skip/force  | `Integer` [1] | `NonZero*` | `Float` | `String` | `Box<str>` | `&'static str` | `char` |
+//! |------------------|-------------|---------------|------------|---------|----------|------------|----------------|--------|
+//! | PartialOrd       | PartialOrd  |       v       |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | Ord              | Ord         |       v       |      v     |         |     v    |      v     |        v       |    v   |
+//! | PartialEq        | PartialEq   |       v       |      v     |    v    |     v    |      v     |        v       |    v   |
+//! | Eq               | Eq          |       v       |      v     |         |     v    |      v     |        v       |    v   |
+//!
+//! Serde [6]
+//!
+//! |                  | skip/force  | `Integer` [1] | `NonZero*` | `Float` | `String` | `Box<str>` | `&'static str` | `char` |
+//! |------------------|-------------|---------------|------------|---------|----------|------------|----------------|--------|
+//! | Serialize        | Serialize   |       v       |      v     |    v    |     v    |      v     |                |    v   |
+//! | Deserialize      | Deserialize |       v       |      v     |    v    |     v    |      v     |                |    v   |
+//!
+//! Maths [7]
+//!
+//! |                  | skip/force  | `Integer` [1] | `NonZero*` | `Float` | `String` | `Box<str>` | `&'static str` | `char` |
+//! |------------------|-------------|---------------|------------|---------|----------|------------|----------------|--------|
+//! | Add<Self>=Self   | Number      |       v       |            |    v    |                       |                |        |
+//! | AddAssign<Self>  | Number      |       v       |            |    v    |                       |                |        |
+//! | Sub<Self>=Self   | Number      |       v       |            |    v    |                       |                |        |
+//! | SubAssign<Self>  | Number      |       v       |            |    v    |                       |                |        |
+//! | Mul<Self>=Self   | Number      |       v       |            |    v    |                       |                |        |
+//! | MulAssign<Self>  | Number      |       v       |            |    v    |                       |                |        |
+//! | Div<Self>=Self   | Number      |       v       |            |    v    |                       |                |        |
+//! | DivAssign<Self>  | Number      |       v       |            |    v    |                       |                |        |
+//!
+//!
+//! [1] Integers are: `u8`, `u16`, `u32`, `u64`, `u128`, `usize`, `i8`, `i16`, `i32`, `i64`, `i128`, `isize`
+//! [2] .value() returns `Inner` for `Copy` types and `&Inner` for non-`Copy` types
+//! [3] `Deref` and `DerefMut` are never implemented unless they are forced with `#[synonym(force(deref,deref_mut))]`
+//! [4] In constrast to other strings, `FromStr` for `Box<str>` synonyms uses `Inner::From<&'str>` instead of `Inner::FromStr` since there is no `FromStr` implementation for `Box<str>`
+//! [5] Display implementation can be configured, see below
+//! [6] Only provided when feature `with_serde` is enabled
+//! [7] This is subject to change
 //!
 //! # Fine-tuning
 //!
@@ -133,6 +196,7 @@ pub fn synonym_derive(input: TokenStream) -> TokenStream {
         impl_number(&info),
         impl_serialize(&info),
         impl_deserialize(&info),
+        impl_value(&info),
     ]);
 
     TokenStream::from(expanded)

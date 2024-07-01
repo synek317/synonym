@@ -18,6 +18,7 @@ fn main() {
     check_from(Foo('x'));
     check_from_inner('x');
     check_from_str(Foo('x'));
+    check_value(Foo('x').value());
 }
 
 fn check_partial_eq(_: impl PartialEq) {}
@@ -34,3 +35,4 @@ fn check_as_ref(_: impl AsRef<char>) {}
 fn check_from(_: impl From<char>) {}
 fn check_from_inner(_: impl From<Foo>) {}
 fn check_from_str(_: impl core::str::FromStr) {}
+fn check_value(_: char) {}

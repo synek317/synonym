@@ -37,8 +37,10 @@ impl Kind {
 
     pub fn is_copy(&self) -> bool {
         match self {
-            Kind::Integer | Kind::NonZeroInteger | Kind::Float | Kind::Char => true,
-            Kind::String | Kind::BoxStr | Kind::StaticStr | Kind::Other => false,
+            Kind::Integer | Kind::NonZeroInteger | Kind::Float | Kind::Char | Kind::StaticStr => {
+                true
+            }
+            Kind::String | Kind::BoxStr | Kind::Other => false,
         }
     }
 
