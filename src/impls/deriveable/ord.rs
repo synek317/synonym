@@ -9,6 +9,7 @@ pub fn impl_ord(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
 
     quote! {
+        #[allow(missing_docs)]
         impl ::core::cmp::Ord for #name {
             fn cmp(&self, other: &Self) -> ::core::cmp::Ordering {
                 ::core::cmp::Ord::cmp(&self.0, &other.0)

@@ -35,6 +35,7 @@ pub fn impl_display(info: &Info) -> proc_macro2::TokenStream {
     };
 
     quote! {
+        #[allow(missing_docs)]
         impl ::core::fmt::Display for #name {
             #[inline]
             fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {

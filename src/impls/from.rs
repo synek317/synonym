@@ -10,12 +10,14 @@ pub fn impl_from(info: &Info) -> proc_macro2::TokenStream {
     let typ = &info.typ;
 
     quote! {
+        #[allow(missing_docs)]
         impl ::core::convert::From<#typ> for #name {
             fn from(t: #typ) -> Self {
                 Self(::core::convert::From::from(t))
             }
         }
 
+        #[allow(missing_docs)]
         impl ::core::convert::From<#name> for #typ {
             fn from(t: #name) -> Self {
                 t.0

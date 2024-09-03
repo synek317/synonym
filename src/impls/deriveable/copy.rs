@@ -9,6 +9,7 @@ pub fn impl_copy(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
 
     quote! {
+        #[allow(missing_docs)]
         impl ::core::marker::Copy for #name {}
     }
 }
