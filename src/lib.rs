@@ -113,7 +113,7 @@
 //!
 //! [1] Integers are: `u8`, `u16`, `u32`, `u64`, `u128`, `usize`, `i8`, `i16`, `i32`, `i64`, `i128`, `isize`
 //! [2] .value() returns `Inner` for `Copy` types and `&Inner` for non-`Copy` types
-//! [3] `Deref` and `DerefMut` are never implemented unless they are forced with `#[synonym(force(deref,deref_mut))]`
+//! [3] `Deref` and `DerefMut` are never implemented unless they are forced with `#[synonym(force(Deref,DerefMut))]`
 //! [4] In constrast to other strings, `FromStr` for `Box<str>` synonyms uses `Inner::From<&'str>` instead of `Inner::FromStr` since there is no `FromStr` implementation for `Box<str>`
 //! [5] Display implementation can be configured, see below
 //! [6] Only provided when feature `with_serde` is enabled
