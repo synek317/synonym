@@ -10,7 +10,6 @@ pub fn impl_clone(info: &Info) -> proc_macro2::TokenStream {
 
     if is_copy(info) {
         quote! {
-            #[allow(missing_docs)]
             impl ::core::clone::Clone for #name {
                 fn clone(&self) -> Self {
                     *self
@@ -19,7 +18,6 @@ pub fn impl_clone(info: &Info) -> proc_macro2::TokenStream {
         }
     } else {
         quote! {
-            #[allow(missing_docs)]
             impl ::core::clone::Clone for #name {
                 fn clone(&self) -> Self {
                     Self(self.0.clone())

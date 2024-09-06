@@ -9,7 +9,6 @@ pub fn impl_partial_eq(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
 
     quote! {
-        #[allow(missing_docs)]
         impl ::core::cmp::PartialEq for #name {
             fn eq(&self, other: &Self) -> bool {
                 ::core::cmp::PartialEq::eq(&self.0, &other.0)

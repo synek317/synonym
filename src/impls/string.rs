@@ -9,7 +9,6 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
 
     let mut tokens = quote! {
-        #[allow(missing_docs)]
         impl ::core::borrow::Borrow<str> for #name {
             fn borrow(&self) -> &str {
                 &self.0
@@ -26,7 +25,6 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
 
     if info.kind != Kind::StaticStr {
         tokens.extend(quote! {
-            #[allow(missing_docs)]
             impl<'a> ::core::convert::From<&'a str> for #name {
                 fn from(s: &'a str) -> Self {
                     Self(::core::convert::From::from(s))
@@ -37,7 +35,6 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
 
     if info.kind == Kind::BoxStr {
         tokens.extend(quote! {
-            #[allow(missing_docs)]
             impl ::core::convert::From<String> for #name {
                 fn from(s: String) -> Self {
                     Self(s.into_boxed_str())

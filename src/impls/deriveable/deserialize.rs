@@ -10,7 +10,6 @@ pub fn impl_deserialize(info: &Info) -> proc_macro2::TokenStream {
     let typ = &info.typ;
 
     quote! {
-        #[allow(missing_docs)]
         impl<'de> ::serde::Deserialize<'de> for #name {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where

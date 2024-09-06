@@ -10,7 +10,6 @@ pub fn impl_deref(info: &Info) -> proc_macro2::TokenStream {
     let typ = &info.typ;
 
     quote! {
-        #[allow(missing_docs)]
         impl ::core::ops::Deref for #name {
             type Target = #typ;
 

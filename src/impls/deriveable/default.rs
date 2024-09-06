@@ -9,7 +9,6 @@ pub fn impl_default(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
 
     quote! {
-        #[allow(missing_docs)]
         impl ::core::default::Default for #name {
             fn default() -> Self {
                 Self(::core::default::Default::default())

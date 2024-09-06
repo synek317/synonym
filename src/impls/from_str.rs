@@ -11,7 +11,6 @@ pub fn impl_from_str(info: &Info) -> proc_macro2::TokenStream {
 
     if info.kind == Kind::BoxStr {
         quote! {
-            #[allow(missing_docs)]
             impl ::core::str::FromStr for #name {
                 type Err = ::core::convert::Infallible;
 
@@ -22,7 +21,6 @@ pub fn impl_from_str(info: &Info) -> proc_macro2::TokenStream {
         }
     } else {
         quote! {
-            #[allow(missing_docs)]
             impl ::core::str::FromStr for #name {
                 type Err = <#typ as ::core::str::FromStr>::Err;
 

@@ -10,7 +10,6 @@ pub fn impl_debug(info: &Info) -> proc_macro2::TokenStream {
     let name_str = name.to_string();
 
     quote! {
-        #[allow(missing_docs)]
         impl ::core::fmt::Debug for #name {
             fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
                 f.debug_tuple(#name_str)

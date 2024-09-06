@@ -10,7 +10,6 @@ pub fn impl_deref_mut(info: &Info) -> proc_macro2::TokenStream {
     let typ = &info.typ;
 
     quote! {
-        #[allow(missing_docs)]
         impl ::core::ops::DerefMut for #name {
             #[inline]
             fn deref_mut(&mut self) -> &mut #typ {

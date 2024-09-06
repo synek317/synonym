@@ -10,7 +10,6 @@ pub fn impl_as_ref(info: &Info) -> proc_macro2::TokenStream {
     let typ = &info.typ;
 
     quote! {
-        #[allow(missing_docs)]
         impl ::core::convert::AsRef<#typ> for #name {
             fn as_ref(&self) -> &#typ {
                 &self.0

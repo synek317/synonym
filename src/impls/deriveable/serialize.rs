@@ -9,7 +9,6 @@ pub fn impl_serialize(info: &Info) -> proc_macro2::TokenStream {
     let name = &info.name;
 
     quote! {
-        #[allow(missing_docs)]
         impl ::serde::Serialize for #name {
             fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
             where
