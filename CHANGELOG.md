@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6 (2024-09-21)
+
+* [#10](https://github.com/synek317/synonym/pull/10) Fix `missing_docs` warnings by simply adding `#[allow]` to generated methods (author: Mike Tsao)
+
 ## 0.1.5 (2024-07-01)
 
 * Fix warnings when `with_serde` feature is not enabled
@@ -19,7 +23,7 @@
 
 ## 0.1.2 (2023-05-30)
 
-* Fix `as_str` for String synonyms
+* [#2](https://github.com/synek317/synonym/pull/2) Fix `as_str` for String synonyms (author: Mike Tsao)
 * Reduce dependencies
 
 ## 0.1.1 (2023-11-22)
