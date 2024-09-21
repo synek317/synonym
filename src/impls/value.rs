@@ -11,6 +11,7 @@ pub fn impl_value(info: &Info) -> proc_macro2::TokenStream {
 
     if info.kind.is_copy() || info.attrs.force.copy {
         quote! {
+            #[allow(missing_docs)]
             impl #name {
                 pub fn value(&self) -> #typ {
                     self.0
@@ -19,6 +20,7 @@ pub fn impl_value(info: &Info) -> proc_macro2::TokenStream {
         }
     } else {
         quote! {
+            #[allow(missing_docs)]
             impl #name {
                 pub fn value(&self) -> &#typ {
                     &self.0
