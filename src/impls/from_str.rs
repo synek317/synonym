@@ -14,7 +14,7 @@ pub fn impl_from_str(info: &Info) -> proc_macro2::TokenStream {
             impl ::core::str::FromStr for #name {
                 type Err = ::core::convert::Infallible;
 
-                fn from_str(s: &str) -> Result<Self, Self::Err> {
+                fn from_str(s: &str) -> ::core::result::Result<Self, Self::Err> {
                     Ok(Self(s.into()))
                 }
             }
@@ -24,7 +24,7 @@ pub fn impl_from_str(info: &Info) -> proc_macro2::TokenStream {
             impl ::core::str::FromStr for #name {
                 type Err = <#typ as ::core::str::FromStr>::Err;
 
-                fn from_str(s: &str) -> Result<Self, Self::Err> {
+                fn from_str(s: &str) -> ::core::result::Result<Self, Self::Err> {
                     ::core::str::FromStr::from_str(s).map(Self)
                 }
             }

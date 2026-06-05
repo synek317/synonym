@@ -11,7 +11,7 @@ pub fn impl_deserialize(info: &Info) -> proc_macro2::TokenStream {
 
     quote! {
         impl<'de> ::serde::Deserialize<'de> for #name {
-            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+            fn deserialize<D>(deserializer: D) -> ::core::result::Result<Self, D::Error>
             where
                 D: ::serde::Deserializer<'de>,
             {
