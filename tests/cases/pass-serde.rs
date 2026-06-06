@@ -8,6 +8,13 @@ fn main() {
     use synonym::Synonym;
     use serde::{Serialize, Deserialize};
 
+    enum Error {
+        Foo,
+        Bar,
+    }
+
+    type Result<T> = std::result::Result<T, Error>;
+
     macro_rules! check {
         ($t:ty, $v:expr, $json:expr) => {
             {
@@ -55,7 +62,7 @@ fn main() {
     struct SkipDeserialize(u32);
 
     impl<'de> Deserialize<'de> for SkipDeserialize {
-        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
         where
             D: serde::Deserializer<'de>,
         {
@@ -77,4 +84,13 @@ fn main() {
     let deserialized: ForceDeserialize = serde_json::from_str("9").unwrap();
 
     assert_eq!(deserialized, ForceDeserialize(9));
+
+    #[derive(Synonym)]
+    struct LocalResultSerde(u32);
+
+    let value = LocalResultSerde(10);
+    let json = serde_json::to_string(&value).unwrap();
+    let deserialized: LocalResultSerde = serde_json::from_str(&json).unwrap();
+
+    assert_eq!(value, deserialized);
 }
