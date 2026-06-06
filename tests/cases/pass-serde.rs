@@ -49,4 +49,32 @@ fn main() {
 
     assert_eq!(foo, deserialized);
     assert_eq!(json, r#"{"bar":42}"#);
+
+    #[derive(Synonym)]
+    #[synonym(force(Serialize), skip(Deserialize))]
+    struct SkipDeserialize(u32);
+
+    impl<'de> Deserialize<'de> for SkipDeserialize {
+        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            u32::deserialize(deserializer).map(Self)
+        }
+    }
+
+    let skipped = SkipDeserialize(8);
+    let json = serde_json::to_string(&skipped).unwrap();
+    let deserialized: SkipDeserialize = serde_json::from_str(&json).unwrap();
+
+    assert_eq!(skipped, deserialized);
+    assert_eq!(json, "8");
+
+    #[derive(Synonym)]
+    #[synonym(force(Deserialize), skip(Serialize))]
+    struct ForceDeserialize(u32);
+
+    let deserialized: ForceDeserialize = serde_json::from_str("9").unwrap();
+
+    assert_eq!(deserialized, ForceDeserialize(9));
 }

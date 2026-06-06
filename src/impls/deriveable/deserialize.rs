@@ -23,10 +23,10 @@ pub fn impl_deserialize(info: &Info) -> proc_macro2::TokenStream {
 
 #[cfg(any(test, feature = "with_serde"))]
 pub fn is_deserialize(info: &Info) -> bool {
-    if info.attrs.force.serialize {
+    if info.attrs.force.deserialize {
         return true;
     }
-    if info.attrs.skip.serialize {
+    if info.attrs.skip.deserialize {
         return false;
     }
 
