@@ -35,8 +35,8 @@ pub fn impl_string(info: &Info) -> proc_macro2::TokenStream {
 
     if info.kind == Kind::BoxStr {
         tokens.extend(quote! {
-            impl ::core::convert::From<String> for #name {
-                fn from(s: String) -> Self {
+            impl ::core::convert::From<::std::string::String> for #name {
+                fn from(s: ::std::string::String) -> Self {
                     Self(s.into_boxed_str())
                 }
             }
