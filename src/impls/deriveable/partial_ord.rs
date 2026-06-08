@@ -11,7 +11,7 @@ pub fn impl_partial_ord(info: &Info) -> proc_macro2::TokenStream {
     if is_ord(info) {
         quote! {
             impl ::core::cmp::PartialOrd for #name {
-                fn partial_cmp(&self, other: &Self) -> Option<::core::cmp::Ordering> {
+                fn partial_cmp(&self, other: &Self) -> ::core::option::Option<::core::cmp::Ordering> {
                     Some(self.cmp(other))
                 }
             }
@@ -19,7 +19,7 @@ pub fn impl_partial_ord(info: &Info) -> proc_macro2::TokenStream {
     } else {
         quote! {
             impl ::core::cmp::PartialOrd for #name {
-                fn partial_cmp(&self, other: &Self) -> Option<::core::cmp::Ordering> {
+                fn partial_cmp(&self, other: &Self) -> ::core::option::Option<::core::cmp::Ordering> {
                     ::core::cmp::PartialOrd::partial_cmp(&self.0, &other.0)
                 }
             }
